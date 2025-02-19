@@ -1,0 +1,4 @@
+org.springframework.test.context.ContextCustomizerFactory = \
+    com.nmc.nmc_gateway.config.\
+    SqlTestContainersSpringContextCustomizerFactory,com.nmc.nmc_gateway.config.\
+    TestContainersSpringContextCustomizerFactory
