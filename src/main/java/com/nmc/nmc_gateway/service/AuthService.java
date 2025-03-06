@@ -3,6 +3,8 @@ package com.nmc.nmc_gateway.service;
 import static com.nmc.nmc_gateway.utils.Constants.*;
 
 import com.nmc.nmc_gateway.service.dto.Response.LoginResponseDTO;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,16 +37,19 @@ public class AuthService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set(API_KEY, "jEvpR2TUAwIRwfxWR445pL6yuPa2cAIB");
+        headers.set(API_KEY, apiKey);
 
-        Map<String, String> body = new HashMap<>();
-        body.put(PASSWORD, password);
-        body.put(USERNAME, username);
-        body.put(GRANT_TYPE, PASSWORD);
+        String requestBody =
+            "grant_type=" +
+            URLEncoder.encode("password", StandardCharsets.UTF_8) +
+            "&username=" +
+            URLEncoder.encode(username, StandardCharsets.UTF_8) +
+            "&password=" +
+            URLEncoder.encode(password, StandardCharsets.UTF_8);
 
         String authUrl = TATMEEN_BASE_URL + TATMEEN_LOGIN_URL;
 
-        HttpEntity<Map<String, String>> request = new HttpEntity<>(body, headers);
+        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
         ResponseEntity<LoginResponseDTO> response = restTemplate.exchange(authUrl, HttpMethod.POST, request, LoginResponseDTO.class);
 
         if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
