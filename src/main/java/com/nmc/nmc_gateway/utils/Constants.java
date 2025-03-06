@@ -1,6 +1,6 @@
 package com.nmc.nmc_gateway.utils;
 
-public final class Constants {
+public class Constants {
 
     public static final String BEARER = "Bearer ";
     public static final String API_KEY = "apiKey";

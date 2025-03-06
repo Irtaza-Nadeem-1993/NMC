@@ -9,6 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,13 +20,12 @@ public class AuthService {
     @Value("${tatmeen.api-key}")
     private String apiKey;
 
-    private final RestTemplate restTemplate;
+    private final RestTemplate restTemplate = new RestTemplate();
 
-    @Getter
-    private final Map<String, LoginResponseDTO> tokenCache = new ConcurrentHashMap<>();
+    public static final Map<String, LoginResponseDTO> tokenCache = new HashMap<>();
 
-    public AuthService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public Map<String, LoginResponseDTO> getTokenCache() {
+        return tokenCache;
     }
 
     public String login(String username, String password) {
@@ -34,7 +35,7 @@ public class AuthService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set(API_KEY, apiKey);
+        headers.set(API_KEY, "jEvpR2TUAwIRwfxWR445pL6yuPa2cAIB");
 
         Map<String, String> body = new HashMap<>();
         body.put(PASSWORD, password);

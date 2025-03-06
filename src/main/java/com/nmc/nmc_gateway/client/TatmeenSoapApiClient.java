@@ -5,14 +5,12 @@ import static com.nmc.nmc_gateway.utils.Constants.*;
 import com.nmc.nmc_gateway.client.xmlBody.TatmeenReceiveCall;
 import com.nmc.nmc_gateway.service.AuthService;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-@RequiredArgsConstructor
 public class TatmeenSoapApiClient {
 
     @Value("${tatmeen.api-key}")
@@ -22,7 +20,11 @@ public class TatmeenSoapApiClient {
 
     private final AuthService authService;
 
-    public String sendSoapRequest() throws Exception {
+    public TatmeenSoapApiClient(AuthService authService) {
+        this.authService = authService;
+    }
+
+    public String sendReceiveSoapRequest() {
         String url = TATMEEN_BASE_URL + TATMEEN_SCP_URL; // SOAP API URL
 
         String requestXmlChanged = TatmeenReceiveCall.createSOAPRequestMyWay(
